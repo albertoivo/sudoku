@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+    
+    /* Sudoku-specific variables for light theme */
+    --sudoku-cell: 0 0% 100%;
+    --sudoku-cell-hover: 210 40% 98%;
+    --sudoku-cell-selected: 214 95% 93%;
+    --sudoku-cell-prefilled: 210 40% 96%;
+    --sudoku-cell-conflict: 0 93% 94%;
+    --sudoku-cell-hint: 120 60% 90%;
+    --sudoku-cell-incorrect: 30 93% 94%;
+    --sudoku-board-border: 215.4 16.3% 25%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+    
+    /* Sudoku-specific variables for dark theme */
+    --sudoku-cell: 217.2 32.6% 17.5%;
+    --sudoku-cell-hover: 215.4 16.3% 25%;
+    --sudoku-cell-selected: 217.2 91.2% 25%;
+    --sudoku-cell-prefilled: 215.4 16.3% 12%;
+    --sudoku-cell-conflict: 0 62.8% 25%;
+    --sudoku-cell-hint: 120 50% 20%;
+    --sudoku-cell-incorrect: 30 80% 25%;
+    --sudoku-board-border: 210 40% 85%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom Sudoku styles */
+@layer components {
+  .sudoku-grid {
+    @apply grid grid-cols-9 gap-0 border-4 border-gray-800 bg-white;
+  }
+  
+  .sudoku-cell {
+    @apply w-12 h-12 text-center text-lg font-semibold border border-gray-300 transition-all duration-200;
+  }
+  
+  .sudoku-cell:focus {
+    @apply outline-none ring-2 ring-blue-500;
+  }
+  
+  .sudoku-cell.prefilled {
+    @apply bg-gray-200 text-gray-800 cursor-not-allowed font-bold;
+  }
+  
+  .sudoku-cell.conflict {
+    @apply bg-red-100 text-red-600 border-red-400;
+  }
+  
+  .sudoku-cell.selected {
+    @apply bg-blue-100 border-blue-500;
+  }
+  
+  .sudoku-cell.hint {
+    @apply bg-green-100 text-green-600 border-green-400 animate-pulse;
+  }
+}
+
+/* Animation for game completion */
+@keyframes celebration {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.celebration {
+  animation: celebration 0.6s ease-in-out;
+}
+
+/* Notification animations */
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-fade-out {
+  animation: fadeOut 0.2s ease-in forwards;
+}
+
+/* Responsive typography */
+@layer utilities {
+  .text-responsive {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+}

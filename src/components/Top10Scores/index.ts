@@ -1,0 +1,1 @@
+export { default as Top10Scores } from './Top10Scores';
