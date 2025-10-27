@@ -104,6 +104,9 @@ export const useSudoku = (): UseSudokuReturn => {
   const [moveHistory, setMoveHistory] = useState<GameMove[]>([]);
   const [redoHistory, setRedoHistory] = useState<GameMove[]>([]);
 
+  // Track if completion prompt has been shown to prevent repeated prompts
+  const [completionPromptShown, setCompletionPromptShown] = useState(false);
+
   // Timer hook
   const timer = useTimer();
 
@@ -141,7 +144,10 @@ export const useSudoku = (): UseSudokuReturn => {
 
   // Handle game completion and score saving
   useEffect(() => {
-    if (gameState.isComplete && timer.timeElapsed > 0) {
+    // Only show completion prompt once
+    if (gameState.isComplete && timer.timeElapsed > 0 && !completionPromptShown) {
+      setCompletionPromptShown(true);
+      
       // Check if time qualifies for Top 10
       const qualifies = qualifiesForTop10(gameState.difficulty, timer.timeElapsed);
       
@@ -194,7 +200,7 @@ export const useSudoku = (): UseSudokuReturn => {
         );
       }
     }
-  }, [gameState.isComplete, gameState.difficulty, gameState.hintsUsed, timer.timeElapsed, addScore, qualifiesForTop10, showSuccess, showError]);
+  }, [gameState.isComplete, gameState.difficulty, gameState.hintsUsed, timer.timeElapsed, completionPromptShown, addScore, qualifiesForTop10, showSuccess, showError]);
 
   /**
    * Creates a new game by generating a fresh puzzle and resetting all game state.
@@ -228,6 +234,7 @@ export const useSudoku = (): UseSudokuReturn => {
       
       setMoveHistory([]);
       setRedoHistory([]);
+      setCompletionPromptShown(false); // Reset completion prompt flag
       timer.reset();
       timer.start();
       
